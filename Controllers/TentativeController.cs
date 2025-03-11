@@ -58,6 +58,31 @@ namespace PFE2024_QUIZZ_API.Controllers
                 return BadRequest();
             }
         }
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateTentative(int id, Tentative tentative)
+        {
 
+            var ExitedTentative = await _dbContext.Tentatives.FindAsync(id);
+
+            if (ExitedTentative == null)
+            {
+                return BadRequest();
+            }
+
+            if (tentative == null)
+            {
+                return BadRequest();
+            }
+            if (tentative.ScoreObtenu > 0)
+            {
+                ExitedTentative.ScoreObtenu = tentative.ScoreObtenu;
+            }
+            
+
+                await _dbContext.SaveChangesAsync();
+                return NoContent();
+            }
+
+        }
     }
-}
+
